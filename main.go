@@ -1,35 +1,27 @@
 package main
 
 import (
+	"emailSpam/parsing"
 	"fmt"
-	"os"
-	"strings"
+	"io/fs"
+	"path/filepath"
 )
 
 func main() {
-
-	data, err:= os.ReadFile("./data/enron1/ham/0113.2000-01-04.farmer.ham.txt")
-	if err!=nil{
-		panic(err)
-	}
-	tokens := strings.Fields(string(data))
-	if len(tokens)==0{
-		panic("Nothing to Tokenize!")
-	}
-	
-	freq := map[string]int{}
-
-	for _,tk := range tokens{
-		freq[tk] += 1
-	}
-
-	var total int 
-	
-	for tk := range freq{
-		total += freq[tk]
-	}
-
-	for tk := range freq{
-		fmt.Printf("TOKEN: %-20s | FREQ:%d \n",tk,freq[tk]/total)
-	}
+	tokenCount := 1 
+	mainTokenMap :=  map[string]int{}
+	filepath.WalkDir("./data/enron1",func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir(){
+			return nil
+		}
+		err = parsing.AddTokens(path,mainTokenMap)
+		if err!=nil{
+			panic(err)
+		}
+		for tk,cont := range mainTokenMap{
+			fmt.Printf("TOKEN :%-15s | COUNT: %4d | TOKENCOUNT: %7d \n",tk,cont,tokenCount)
+			tokenCount++
+		}
+		return nil
+	})
 }
