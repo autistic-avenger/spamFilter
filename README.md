@@ -44,7 +44,7 @@ graph TD
 ## Tech Stack
 
 * **Language:** Go
-* **Dataset:** Enron Email Dataset
+* **Dataset:** [Enron Email Dataset](https://www.kaggle.com/datasets/wcukierski/enron-email-dataset)
 * **Algorithm:** Naive Bayes
 
 
