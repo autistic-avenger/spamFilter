@@ -9,6 +9,8 @@ import (
 type TokenMap map[string]int
 
 func main() {
+	fmt.Println("EMAIL SPAM DETECTION USING NAIVE BAYES THEOREM!")
+
 	SpamCount := 0 
 	spam :=  TokenMap{}
 	parsing.AddDir("./data/enron1/spam/",spam,&SpamCount)
@@ -28,6 +30,9 @@ func main() {
 
 	TotalCount := HamCount+ SpamCount
 
+
+
+	
 	testPath := "./test.txt"
 
 	hamProb ,spamProp ,err := spamclassify.Classify(testPath,spam,SpamCount,ham,HamCount,TotalCount)
@@ -37,8 +42,8 @@ func main() {
 	}
 
 	if hamProb>spamProp{
-		fmt.Println("It's likely HAM :")
+		fmt.Println("\n\n\nIt's likely HAM !")
 	}else{
-		fmt.Println("It's likely SPAM :")
+		fmt.Println("\n\n\nIt's likely SPAM !")
 	}
 }

@@ -15,7 +15,6 @@ func Classify(path string, spamMap map[string]int, spamCount int, hamMap map[str
 
 	contentTokens := tokenize.Tokenize(data)
 
-	dProbability := 0.0
 	hamProbability := 0.0
 	spamProbability := 0.0
 
@@ -26,17 +25,13 @@ func Classify(path string, spamMap map[string]int, spamCount int, hamMap map[str
 		if hamMap[tk] != 0 {
 			hamProbability += math.Log(float64(hamMap[tk])/float64(hamCount))
 		}
-		
-		ct := hamMap[tk] + spamMap[tk]
-		if ct!=0{
-			dProbability += math.Log(float64(ct)/float64(spamCount))
-		}
 
 	}
-	defaultHam := float64(hamCount)/float64(totalCount)
-	defaultSpam := float64(spamCount)/float64(totalCount)
+	defaultHam := math.Log(float64(hamCount)/float64(totalCount))
+	defaultSpam := math.Log(float64(spamCount)/float64(totalCount))
 
-	finalHam := hamProbability+ defaultHam - dProbability
-	finalSpam := spamProbability +defaultSpam - dProbability
+	finalHam := hamProbability + defaultHam
+	finalSpam := spamProbability + defaultSpam
+	
 	return finalHam,finalSpam,nil
 }
