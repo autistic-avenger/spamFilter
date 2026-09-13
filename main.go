@@ -2,6 +2,7 @@ package main
 
 import (
 	"emailSpam/parsing"
+	spamclassify "emailSpam/spamClassify"
 	"fmt"
 )
 
@@ -27,8 +28,17 @@ func main() {
 
 	TotalCount := HamCount+ SpamCount
 
+	testPath := "./test.txt"
 
-	fmt.Println(HamCount)
-	fmt.Println(SpamCount)
-	fmt.Println(TotalCount)
+	hamProb ,spamProp ,err := spamclassify.Classify(testPath,spam,SpamCount,ham,HamCount,TotalCount)
+	if err!=nil{
+		fmt.Println("Error Classifying")
+		panic(err)
+	}
+
+	if hamProb>spamProp{
+		fmt.Println("It's likely HAM :")
+	}else{
+		fmt.Println("It's likely SPAM :")
+	}
 }
