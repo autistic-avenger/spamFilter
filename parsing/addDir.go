@@ -7,7 +7,7 @@ import (
 
 func AddDir(path string, mainTokenMap map[string]int, TokenCount *int) {
 	
-	filepath.WalkDir("./data/enron1", func(path string, d fs.DirEntry, err error) error {
+	filepath.WalkDir(path, func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() {
 			return nil
 		}
@@ -16,9 +16,6 @@ func AddDir(path string, mainTokenMap map[string]int, TokenCount *int) {
 			panic(err)
 		}
 
-		for tk := range mainTokenMap {
-			*TokenCount += mainTokenMap[tk]
-		}
 		return nil
 	})
 }
